@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OOP ES6 Version</title>
+</head>
+<body>
+<script type="text/javascript">
+	
+	class Restaurant{
+		constructor(obj) {
+			this.cash = obj.cash;
+			this.seats = obj.seats;
+			this.staff = obj.staff;
+		}
+		hire(staff) {
+			this.staff.push(staff);
+		}
+		fire(staff) {
+			var index = this.staff.indexOf(staff);
+			this.staff = this.staff.slice(0,index).concat(this.staff.slice(index+1));
+		}
+	}
+
+	class Staff{
+		constructor(id,name,salary) {
+			this.id = id;
+			this.name = name;
+			this.salary = salary;
+		}
+		workDown(work) {
+			window.alert(work + ' done!');
+		}
+	}
+
+	class Waiter extends Staff {
+		constructor(id,name,salary) {
+			super(id,name,salary);
+		}
+		workDown(work) {
+			if(Array.isArray(work)) {
+				window.alert('Order food' + ' done!');
+			} else {
+				window.alert('Serve dishes' + ' done!');
+			}	
+		}
+	}
+
+	class Cook extends Staff {
+		constructor(id,name,salary) {
+			super(id,name,salary);
+		}
+		workDown() {
+			window.alert('Cook dishes' + ' done!');
+		}
+	}
+
+	class Customer {
+		constructor(title,name) {
+			this.title = title;
+			this.name = name;
+		}
+		order(food) {
+			window.alert('Order: ' + food);
+		}
+		eat(food) {
+			window.alert('Eat: ' + food);
+		}
+	}
+
+	class Food {
+		constructor(name,cost,price) {
+			this.name = name;
+			this.cost = cost;
+			this.price = price;
+		}
+	}
+
+	var ifeRestaurant = new Restaurant({
+    cash: 1000000,
+    seats: 20,
+    staff: []
+	});
+	var newCook = new Cook(1,"Tony", 10000);
+	var newWaiter = new Waiter(2,"Allen",5000);
+	
+	console.log(newCook instanceof Staff);
+	console.log(newCook instanceof Cook);
+
+	console.log(Waiter.prototype);
+	console.log(Cook.prototype);
+
+	ifeRestaurant.hire(newCook);
+	ifeRestaurant.hire(newWaiter);
+	//ifeRestaurant.fire(newCook);
+	console.log(ifeRestaurant.staff);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OOP ES5 Version</title>
+</head>
+<body>
+<script type="text/javascript">
+	//餐厅类
+	function Restaurant(obj) {
+		this.cash = obj.cash;
+		this.seats = obj.seats;
+		this.staff = obj.staff;
+	}
+	Restaurant.prototype.hire = function(staff) {
+		this.staff.push(staff);
+	}
+	Restaurant.prototype.fire = function(staff) {
+		var index = this.staff.indexOf(staff);
+		this.staff = this.staff.slice(0,index).concat(this.staff.slice(index+1));
+	}
+
+	//职员类
+	function Staff(id,name,salary) {
+		this.id = id;
+		this.name = name;
+		this.salary = salary;
+	}
+	Staff.prototype.workDone = function(work) {
+		window.alert(work + ' done!');
+	}
+
+	//服务员类，继承自职员，方法要判断参数
+	function Waiter(id,name,salary) {
+		Staff.call(this,id,name,salary);
+	}
+	Waiter.prototype = new Staff();
+	Waiter.prototype.constructor = Waiter;
+	Waiter.prototype.workDone = function(work) {
+		if(Array.isArray(work)) {
+			window.alert('Order food' + ' done!');
+		} else {
+			window.alert('Serve dishes' + ' done!');
+		}
+	}
+	
+	//厨师类，继承自职员
+	function Cook(id,name,salary) {
+		Staff.call(this,id,name,salary);
+	}
+	Cook.prototype = new Staff();
+	Cook.prototype.constructor = Cook;
+	Cook.prototype.workDone = function() {
+		window.alert('Cook dishes' + ' done!');
+	}
+
+	//顾客类
+	function Customer(title,name) {
+		this.title = title;
+		this.name = name;
+	}
+	Customer.prototype.order = function(food) {
+		window.alert('Order: ' + food);
+	}
+	Customer.prototype.eat = function(food) {
+		window.alert('Eat: ' + food);
+	}
+
+	//菜品类
+	function Food(name,cost,price) {
+		this.name = name;
+		this.cost = cost;
+		this.price = price;
+	}
+
+	var ifeRestaurant = new Restaurant({
+    cash: 1000000,
+    seats: 20,
+    staff: []
+	});
+
+	var newCook = new Cook(1,"Tony", 10000);
+	var newWaiter = new Waiter(2,"Allen",5000);
+	console.log(newCook instanceof Staff);
+	console.log(newCook instanceof Cook);
+
+	console.log(Waiter.prototype);
+	console.log(Cook.prototype);
+	
+	ifeRestaurant.hire(newCook);
+	ifeRestaurant.hire(newWaiter);
+	//ifeRestaurant.fire(newCook);
+	console.log(ifeRestaurant.staff);
+
+</script>
+</body>
+</html>
