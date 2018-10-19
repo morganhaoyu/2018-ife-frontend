@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Email Manipulation</title>
+	<style type="text/css">
+		html, body {
+			margin: 0;
+		}
+		* {
+			box-sizing: border-box;
+		}
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			width: 124px;
+			margin-left: 30px;
+			margin-top: 20px;
+		}
+		ul {
+			width: 100%;
+			margin-top:0px;
+			margin-left:-88px;
+		}
+		li {
+			list-style: none;
+			width: 131px;
+			font-size: 12px;
+			padding-top:3px;
+			border: 1px solid silver;
+			border-top: none;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: clip;
+		}
+		.slt {
+			background: #e8ebef;
+		}
+
+		.def {
+			background: #f4d3c6;
+		}
+
+	</style>
+</head>
+<body>
+<div class="wrapper">
+    <input id="email-input" type="text" placeholder="请输入邮箱" autofocus>
+    <ul id="email-sug-wrapper" class="email-sug"></ul>
+</div>
+<script type="text/javascript">
+
+	//创建邮件后缀的数组
+	var postfixList = ['163.com', 'gmail.com', '126.com', 'qq.com', '263.net'];
+
+	//获取显示框dom
+	var list = document.getElementById('email-sug-wrapper');
+
+	//增加一个变量，用于存储当前选中的提示Li的序号
+	var nowSelectTipIndex = 0;
+
+	//监听用户的输入
+	var inputDom = document.getElementById('email-input');
+	inputDom.addEventListener('input', function(e) {
+		if(e.keyCode !== 38 && e.keyCode !== 40 && e.keyCode !== 13) {
+			resetSel();
+		} 
+		showSug();
+	})
+
+
+	//获取用户的输入
+	function getInput() {
+		var inputVal = inputDom.value;
+		return inputVal.trim();
+	}
+	
+	//生成提示框中的提示内容
+	function setSug() {
+		var sug = [];
+		var curInput = getInput();
+		var index = curInput.indexOf('@');
+		if(index !== -1) {
+			var input = curInput.substring(0,index);  //获取@前面的内容
+			var suffix = curInput.substring(index+1); //获取@后面的内容
+			for(let i in postfixList) {
+			  if(postfixList[i].startsWith(suffix)) {
+			  	var node = document.createElement('LI');
+			    var textnode = document.createTextNode(input + '@' + postfixList[i]);
+			    node.appendChild(textnode); 
+			    sug.push(node);
+			  }
+			}
+		} else if(curInput) {
+			for(let i in postfixList) {
+			  var node = document.createElement('LI');
+			  var textnode = document.createTextNode(curInput + '@' + postfixList[i]);
+			  node.appendChild(textnode); 
+			  sug.push(node);
+			}
+		}
+		return sug;
+	}
+	
+	//添加提示内容，更新提示框状态
+	function showSug() {
+		var sugs = setSug();
+		list.innerText = '';
+		for(let i in sugs) {
+			list.appendChild(sugs[i]);
+		}
+		if(sugs[nowSelectTipIndex]) {
+			sugs[nowSelectTipIndex].setAttribute('class','def');
+		}
+		return sugs;
+	}
+
+	//重置提示框选中的状态
+	function resetSel() {
+		nowSelectTipIndex = 0;
+	}
+
+	//监听三个键盘事件--基于数据的思路(prefer)
+ 	inputDom.addEventListener('keydown',function(e) {
+ 		var suggest = showSug();
+ 		var len = suggest.length;
+ 		//上箭头
+ 		if(e.keyCode === 38) {  
+ 			e.preventDefault();  //防止光标移到最左边
+ 			if(nowSelectTipIndex === 0) {
+ 				nowSelectTipIndex = len - 1;
+ 				showSug();
+ 			} else {
+ 				nowSelectTipIndex--;
+ 				showSug();
+ 			}
+
+ 		}
+ 		//下箭头
+ 		if(e.keyCode === 40) {
+ 			if(nowSelectTipIndex === len-1) {
+ 				nowSelectTipIndex = 0;
+ 				showSug();
+ 			} else {
+ 				nowSelectTipIndex++;
+ 				showSug();
+ 			}
+ 		}
+ 		//回车
+ 		if(e.keyCode === 13) {
+			inputDom.value = suggest[nowSelectTipIndex].innerText;
+			list.style.display = 'none';
+ 		} else {
+			list.style.display = 'block';
+ 		}
+ 		//esc
+ 		if(e.keyCode == 27) {
+ 			inputDom.select();
+ 		}
+ 	})
+
+
+	//鼠标点击，把提示内容放进输入框
+	list.addEventListener('click',function(e) {
+		var val = e.target.innerText;
+		inputDom.value = val;
+		list.style.display = 'none';
+	})
+
+	//鼠标悬停，改变颜色
+	list.addEventListener('mouseover',function(e) {
+		if(e.target.id !== 'email-sug-wrapper') {
+			e.target.style.background = 'lightblue';
+		}
+	}) 
+
+	//鼠标移开，还原颜色
+	list.addEventListener('mouseout',function(e) {
+		e.target.style.background = '';
+	})
+
+	//点击页面空白处，提示框隐藏；点击输入框，提示框出现
+	document.addEventListener('click', function(e) {
+		if(e.target.id !== 'email-input') {   //判断点击的区域不是输入框
+			list.style.display = 'none';
+			inputDom.focus();
+		} else {
+			list.style.display = 'block';
+		}
+	})
+
+</script>
+</body>
+</html>
