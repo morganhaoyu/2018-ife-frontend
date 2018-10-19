@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Clock</title>
+</head>
+<body onload="getTime()">
+<p id="timer"></p>
+<p id="timer2"></p>
+<script type="text/javascript">
+
+	
+
+	function getTime() {
+		var today = new Date();
+		var y = today.getFullYear();
+		var mth = today.getMonth();
+		var d = today.getDate();
+		var h = today.getHours();
+		var m = today.getMinutes();
+		var s = today.getSeconds();
+		var day1 = getChineseDay(today);
+		var day2 = getEnglishDay(today);
+		mth = checkTime(mth);
+		d = checkTime(d);
+		h1 = checkTime(h);
+		h2 = checkHour(h);
+		m = checkTime(m);
+		s = checkTime(s);
+
+		var clock1 = document.getElementById('timer');
+		clock1.innerHTML = y + '年' + mth + '月' + d +'日' + day1
+						+ ' ' + h1 + ':' + m + ':' + s; 
+
+		var clock2 = document.getElementById('timer2');
+		clock2.innerHTML = y + '-' + mth + '-' + d + ' ' + day2 
+						 + ' ' + h2 + ':' + m + ':' + s + (h > 12 ? ' pm' : ' am');
+
+		var t = setTimeout('getTime()', 1000);
+	}
+
+	
+
+	function checkTime(i) {
+		if(i < 10) {
+			i = "0" + i;
+		}
+		return i;
+	}
+
+	function checkHour(n) {
+		if(n > 12) {
+			n = '0' + (n -12);
+		}
+		return n;
+	}
+
+	function getChineseDay(today) {
+		var dayChiNames = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+		return dayChiNames[today.getDay()];
+	}
+
+	function getEnglishDay(today) {
+		var dayEngNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday']
+		return dayEngNames[today.getDay()];
+	}
+</script>
+</body>
+</html>

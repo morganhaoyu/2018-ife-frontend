@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Time Manipulation</title>
+</head>
+<body>
+
+<select id="year-select">
+</select>
+
+<select id="month-select">
+</select>
+
+<select id="day-select">
+</select>
+
+<select id="hour-select">
+</select>
+
+<select id="minute-select">
+</select>
+
+<select id="second-select">
+</select>
+
+<p id="result-wrapper"></p>
+
+<script type="text/javascript">
+    //获取一系列变量
+    var resDom = document.getElementById('result-wrapper'),
+        year = document.getElementById('year-select'),
+        month = document.getElementById('month-select'),
+        day = document.getElementById('day-select'),
+        hour = document.getElementById('hour-select'),
+        minute = document.getElementById('minute-select'),
+        second = document.getElementById('second-select');
+
+    //为year添加选项
+    var min = 2000, max = 2030;
+    for (var i = min; i<=max; i++){
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        year.appendChild(opt);
+    }
+
+    //为month添加选项
+    var min = 1, max = 12;
+    for (var i = min; i<=max; i++){
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        month.appendChild(opt);
+    }
+
+    //为day添加选项
+     var min = 1, max = 31;
+            for (var i = min; i<=max; i++){
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            day.appendChild(opt);
+        }
+
+    //大小月和闰年
+    function updateDayByM(m,y) {
+      day.innerHTML = '';
+      if(m == 4 || m == 6 || m == 9 || m == 11)  {
+        var min = 1, max = 30;
+        for (var i = min; i<=max; i++){
+            var opt = document.createElement('option');
+            opt.value = i;
+            opt.innerHTML = i;
+            day.appendChild(opt);
+        }
+      } else if(m == 2) {
+        if(((y % 4 == 0) && (y % 100 != 0)) || (y % 400 == 0)) {
+            var min = 1, max = 29;
+            for (var i = min; i<=max; i++){
+                var opt = document.createElement('option');
+                opt.value = i;
+                opt.innerHTML = i;
+                day.appendChild(opt);
+            }
+        } else {
+            var min = 1, max = 28;
+            for (var i = min; i<=max; i++){
+                var opt = document.createElement('option');
+                opt.value = i;
+                opt.innerHTML = i;
+                day.appendChild(opt);
+            }
+        }
+      }
+    }
+    
+
+    //为hour添加选项
+    var min = 0, max = 23;
+    for (var i = min; i<=max; i++){
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        hour.appendChild(opt);
+    }
+
+    //为minute添加选项
+    var min = 0, max = 59;
+    for (var i = min; i<=max; i++){
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        minute.appendChild(opt);
+    }
+
+    //为second添加选项
+    var min = 0, max = 59;
+    for (var i = min; i<=max; i++){
+        var opt = document.createElement('option');
+        opt.value = i;
+        opt.innerHTML = i;
+        second.appendChild(opt);
+    }
+
+    //获取用户选择的时间
+    function getSelectedTime() {
+        return new Date(year.value, (month.value-1), day.value, 
+                            hour.value, minute.value, second.value);
+    }
+
+    //计算时间差
+    function calcTime() {
+        var time = getSelectedTime();
+        var sltTime = time.getTime();
+        var today = new Date().getTime();
+
+        var diff;
+
+        if(sltTime < today) {
+            diff =  today - sltTime;
+        } else {
+            diff = sltTime - today;
+        }
+        var msd = 24 * 60 * 60 * 1000,
+            msh = 60 * 60 * 1000,
+            msm = 60 * 1000,
+            d = Math.floor(diff / msd);
+            h = Math.floor((diff - d * msd)/msh),
+            m = Math.floor((diff - d * msd - h * msh)/msm),
+            s = Math.floor((diff - d * msd - h * msh - m * msm)/1000);
+        if(s === 60) {
+            m++;
+            s = 0;
+        }
+        if(m === 60) {
+            h++;
+            m = 0;
+        }
+        if(h === 24) {
+            d++;
+            h = 0;
+        }
+        if(sltTime > today) {
+            var msg = ' 还有 '+ d + '天' + h + '小时' + m + '分' + s + '秒';
+        } else {
+            var msg = ' 已经过去 '+ d + '天' + h + '小时' + m + '分' + s + '秒';
+        }
+        
+        return msg;
+    }
+    
+    //在个位数前面补0
+    function checkTime(i) {
+        if(i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
+    //换算中文的星期
+    function checkDay(day) {
+        var dayNames = ['星期日','星期一','星期二','星期三','星期四','星期五','星期六'];
+        return dayNames[day.getDay()]
+    }
+
+    //生成输出的结果
+    function setResult() {
+        var curTime = getSelectedTime();
+        var wday = checkDay(curTime);
+        var result = calcTime();
+
+        resDom.innerText = '现在距离 ' + year.value + '年' 
+                             + month.value + '月' 
+                             + day.value + '日'
+                             + wday + ' '
+                             + checkTime(hour.value) + ':'
+                             + checkTime(minute.value) + ':'
+                             + checkTime(second.value) + result;
+    }
+
+    //绑定事件监听
+    function updateTime() {
+        
+        year.addEventListener('change', function() {
+            setResult();
+            var y = year.value;
+            return y;
+        })
+        
+        month.addEventListener('change', function() {
+            var y = year.value;
+            var m = month.value;
+            updateDayByM(m,y);
+            setResult();
+
+        })
+        
+        day.addEventListener('change', function() {
+            setResult()
+        })
+
+        hour.addEventListener('change', function() {
+            setResult()
+        })
+
+        minute.addEventListener('change', function() {
+            setResult()
+        })
+
+        
+        second.addEventListener('change', function() {
+            setResult()
+        })
+    }
+    updateTime();
+
+</script>
+
+</body>
+</html>
