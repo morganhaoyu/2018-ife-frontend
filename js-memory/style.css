@@ -1,0 +1,78 @@
+*{
+	box-sizing: border-box;
+}
+table {
+	margin:0px 0 0 50px;
+	border-collapse: collapse;
+	border: 1px solid #ccc;
+}
+thead, tr, td {
+	border: 1px solid #ccc;
+	width: 90px;
+	height: 40px;
+	padding-left: 5px;
+	overflow: hidden;
+	text-align: center;
+	position: relative;
+}
+thead {
+	background: #333;
+	color: white;
+}
+#radio-wrapper {
+	margin:20px 0 0 50px;
+}
+#chart-wrapper {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin-left: 40px;
+}
+.inputBtn {
+	width: 33px;
+	position: absolute;
+	bottom: -3px;
+	right: -30px;
+	border: none;
+	color: #c2c4c6;
+	font-size: 6px;
+	background: transparent;
+	display: block;
+	outline:0 none !important;    /*去掉蓝色外边框*/
+}
+td:hover .inputBtn{
+	right: 0px;
+}
+.inputBtn:hover{
+	cursor: pointer;
+}
+.inputConf,
+.inputCancel {
+	width: 40px;
+	height: 21px;
+	display: none;
+	position: absolute;
+	right: 0px;
+	background: #bcd7f2; 
+	margin: 2px 0 2px 5px;
+	font-size: 6px;
+	border:1px solid #ccc;
+	z-index: 10;
+	outline:0 none !important;
+}
+
+.inputConf {
+	top: -3px;
+}
+
+.inputCancel {
+	bottom: -3px;
+}
+
+.inputDom {
+	width: 50px;
+	height:38px;
+	display: none;
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
