@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Queue Manipulation 2</title>
+</head>
+<body>
+<input id="queue-input" type="text">
+<p id="queue-cont">队列内容：apple&lt;-pear</p>    
+<button id="in-btn">入队</button>
+<button id="out-btn">出队</button>
+<button id="font-btn">打印队头元素内容</button>
+<button id="empty-btn">判断队列是否为空</button>
+
+<script>
+//队头对应数组中第一个元素
+//入队和出队操作后，需要在 id 为 queue-cont 的 p 标签中更新显示队列中的内容，队头在最左侧，中间用 <- 连接（练习使用数组的join方法）
+  var queue = ["apple", "pear"];
+
+  //入队
+  var inBtn = document.getElementById('in-btn');
+  inBtn.addEventListener('click', function() {
+  	var inputVal = document.getElementById('queue-input').value;
+      if(inputVal !== '') {
+  		queue.push(inputVal);
+  		var resDom = document.getElementById('queue-cont');
+  		resDom.innerText = '队列内容：' + queue.join('<-');
+  	  }
+  })
+
+  //出队
+  var outBtn = document.getElementById('out-btn');
+  outBtn.addEventListener('click', function() {
+  	queue.shift();
+  	var resDom = document.getElementById('queue-cont');
+    resDom.innerText = '队列内容：' + queue.join('<-');
+  })
+
+  //打印队头元素内容
+  var fontBtn = document.getElementById('font-btn');
+  fontBtn.addEventListener('click', function() {
+  	console.log(queue[0]);
+  })
+
+
+  //判断队列是否为空
+  var emptyBtn = document.getElementById('empty-btn');
+  emptyBtn.addEventListener('click', function() {
+  	if(queue.length > 0) {
+  		console.log('队列不为空');
+  	} else {
+  		console.log('队列为空');
+  	}
+  })
+
+
+</script>
+</body>
+</html>

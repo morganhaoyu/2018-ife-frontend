@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binary Tree</title>
+</head>
+<body>
+<script type="text/javascript">
+    var tree = {
+    "id": 0,
+    "name": "root",
+    "left": {
+        "id": 1,
+        "name": "Simon",
+        "left": {
+            "id": 3,
+            "name": "Carly",
+            "left": {
+                "id": 7,
+                "name": "Lee",
+                "left": {
+                    "id": 11,
+                    "name": "Fate"
+                }
+            },
+            "right": {
+                "id": 8,
+                "name": "Annie",
+                "left": {
+                    "id": 12,
+                    "name": "Saber"
+                }
+            }
+        },
+        "right": {
+            "id": 4,
+            "name": "Tony",
+            "left": {
+                "id": 9,
+                "name": "Candy"
+            }
+        }
+    },
+    "right": {
+        "id": 2,
+        "name": "right",
+        "left": { 
+            "id": 5,
+            "name": "Carol",
+        },
+        "right": {
+            "id": 6,
+            "name": "Carl",
+            "right": {
+                "id": 10,
+                "name": "Kai"
+            }        
+        }
+    }
+}
+// 假设id和name均不会重复，根据输入name找到对应的id
+function findIdByName(name,tree) {
+    var result = '';
+    if(name === tree.name) {
+        result = tree.id;
+    } else {
+        if(tree.left) {
+            result = findIdByName(name, tree.left);
+        }   
+        if(!result && tree.right) {
+        result = findIdByName(name, tree.right);
+        }
+    }
+    return result;
+}
+console.log(findIdByName('Kai', tree));
+
+// 假设id和name均不会重复，根据输入id找到对应的name
+function findNameById(id,tree) {
+    var result = '';
+    if(id === tree.id) {
+        result = tree.name;
+    } else {
+        if(tree.left) {
+            result = findNameById(id,tree.left);
+        }
+        if(!result && tree.right) {
+            result = findNameById(id,tree.right);
+        }
+    }
+    return result;
+}
+console.log(findNameById(12,tree));
+
+//深度遍历有前序、中序以及后序三种遍历方法，
+//把这个对象中所有的名字以“前序遍历”的方式全部输出到console中（根-左-右）
+function getListWithDLR(node) {
+    if(!node) {
+        return;
+    }
+    console.log(node.name)
+    var left = node.left;
+    var right = node.right;
+    getListWithDLR(left);
+    getListWithDLR(right);
+    }
+ getListWithDLR(tree);
+
+
+// 把这个对象中所有的名字以“中序遍历”的方式全部输出到console中（左-根-右）
+function getListWithLDR(node) {
+    if(!node) {
+        return;
+    }
+    var left = node.left;
+    var right = node.right;
+    getListWithLDR(left);
+    console.log(node.name);
+    getListWithLDR(right);
+}
+getListWithLDR(tree);
+
+// 把这个对象中所有的名字以“后序遍历”的方式全部输出到console中（左-右-根）
+function getListWithLRD(node) {
+    if(!node) {
+        return;
+    }
+    var left = node.left;
+    var right = node.right;
+    getListWithLRD(left);
+    getListWithLRD(right);
+    console.log(node.name);
+}
+getListWithLRD(tree);
+
+</script>
+</body>
+</html>
