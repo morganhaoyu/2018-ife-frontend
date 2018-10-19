@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CSS sprite</title>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+
+	<script type="text/javascript">
+		//画布大小
+		var canvasWidth = 800;
+		var canvasHeight = 600;
+
+        //sprite sheet大小
+		var spriteWidth = 480;
+		var spriteHeight = 8160;
+
+		//sprite sheet的行数
+		var rows = 17;
+
+		//每个frame的大小
+		var width = spriteWidth;
+		var height = spriteHeight / rows;
+
+		//开始的frame index
+		var curFrame = 0;
+
+		//总的frame数
+		var frameCount = 34;
+
+		//渲染sprite的位置
+		var x = 0;
+		var y = 0;
+
+		//渲染每个frame的位置
+		var srcX = 0;
+		var srcY = 0;
+
+		//设置画布
+		var canvas = document.getElementById("canvas");
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+
+		//设置画布的context
+		var ctx = canvas.getContext("2d");
+
+		//创建一个image对象
+		var figure = new Image();
+
+		//设置image的路径
+		figure.src = "erik.jpg";
+
+		function update() {
+			curFrame = ++curFrame % frameCount;  //保证在0到33之间
+			if(curFrame < 17) {
+			  srcY = curFrame * height;            //更新每个frame的y坐标
+			} else {
+			  srcY = (33-curFrame) * height;      
+			}
+			ctx.clearRect(x,y,width,height);
+		}
+
+		function draw() {
+			update();
+			ctx.drawImage(figure, srcX, srcY, width, height, x, y, width, height);
+		}
+
+		setInterval(draw, 100);
+
+	</script>
+</body>
+</html>

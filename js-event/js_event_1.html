@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+  <input id="name" type="text">    
+  <button id="submit-btn">Submit</button>
+  <script type="text/javascript">
+  	
+  	// var btn = document.getElementById("submit-btn");
+   //  btn.addEventListener('click', function() {
+   //    console.log(document.getElementById("name").value);
+   //  })
+
+    onkeydown = function keyOnClick(e){
+      var theEvent = window.event || e;
+      var code = theEvent.keyCode || theEvent.which;
+      if (code==13) {      //回车键的键值为13
+        console.log(document.getElementById("name").value);
+       } else if (code==27) {  //esc键的键值为27
+         document.getElementById("name").value = '';
+       }
+    }
+
+  </script>
+</body>
+</html>
