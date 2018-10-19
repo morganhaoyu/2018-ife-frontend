@@ -1,0 +1,58 @@
+html {
+  margin:0px;
+  font-size: 15px;
+}
+
+.container {
+  display: table;
+  width:100%;
+  max-width: 1000px;
+}
+
+.info-ctn {
+  display: table-row;
+}
+
+.sidebar {
+  display: table-caption;
+  caption-side: top;
+  border:1px solid silver;
+  width:887px;
+  background:silver;
+  color:white;
+  font-size:8px;
+  padding-left: 15px;
+}
+
+h2,
+.info {
+  display: table-cell;
+  border:1px solid silver;
+  height: 90px;
+  border-collapse:collapse;
+}
+
+h2 {
+  background: lightgrey;
+  width: 100px;
+  text-align: center;
+  vertical-align:middle;
+  font-size: 15px;
+}
+
+.info {
+  width: 800px;
+}
+
+li {
+  list-style: none;
+  display: inline;
+  margin-right: 25px;
+  margin-left:5px;
+}
+
+p,.detail {
+  display: inline; 
+  margin-left:5px;
+}
+
